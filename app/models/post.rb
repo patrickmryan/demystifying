@@ -1,8 +1,9 @@
 class Post
-  attr_reader :id, :title, :body, :author, :created_at
+  attr_reader :id, :title, :body, :author, :created_at, :errors
 
   def initialize(attributes={})
     set_attributes(attributes)
+    @errors = {}
   end
 
   def set_attributes(attributes)
@@ -13,16 +14,30 @@ class Post
     @created_at ||= attributes['created_at']
   end
 
+  def valid?
+    @errors['title']  = "can't be blank" if title.blank?
+    @errors['body']   = "can't be blank" if body.blank?
+    @errors['author'] = "can't be blank" if author.blank?
+    @errors.empty?
+  end
+
+
   def new_record?
     id.nil?
   end
 
   def save
-    if new_record?
-      self.insert
-    else
-      self.update
+    isValid = self.valid?
+
+    if isValid
+      if new_record?
+        self.insert
+      else
+        self.update
+      end
     end
+    return isValid
+
   end
 
   def insert
@@ -80,6 +95,6 @@ class Post
     post_hashes.map do |post_hash|
       Post.new(post_hash)
     end
-  end  
+  end
 
 end

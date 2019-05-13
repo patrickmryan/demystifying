@@ -1,21 +1,27 @@
 #require 'sqlite3'
 
 class ApplicationController < ActionController::Base
-  def hello_world
-    #self.render(plain: 'Hello World')
-    #self.render(inline: '<em>Hello, World</em>')
-    #self.render('application/hello_world')
-
-    aName = params['name'] || 'Default'
-    self.render('application/hello_world', locals: {name: aName})
-
-  end
+  # def hello_world
+  #   #self.render(plain: 'Hello World')
+  #   #self.render(inline: '<em>Hello, World</em>')
+  #   #self.render('application/hello_world')
+  #
+  #   aName = params['name'] || 'Default'
+  #   self.render('application/hello_world', locals: {name: aName})
+  #
+  # end
 
   def list_posts
     # connection = self.get_connection
     # results = connection.execute('select * from posts')
     posts = Post.all
     render 'application/list_posts', locals: { posts: posts }
+  end
+
+  def new_post
+    post = Post.new
+
+    render 'application/new_post', locals: { post: post }
   end
 
   def show_post
@@ -43,9 +49,11 @@ class ApplicationController < ActionController::Base
     post = Post.new('title' => params['title'],
                     'body' => params['body'],
                     'author' => params['author'])
-    post.save
-
-    redirect_to '/list_posts'
+    if post.save
+      redirect_to '/list_posts'
+    else
+      render 'application/new_post', locals: { post: post }
+    end
 
   end
 
@@ -68,18 +76,14 @@ class ApplicationController < ActionController::Base
 
 
   def update_post
-    connection = self.get_connection
-
-    update_query = <<-SQL
-      UPDATE posts
-      SET title      = ?,
-          body       = ?,
-          author     = ?
-      WHERE posts.id = ?
-    SQL
-    connection.execute update_query, params['title'], params['body'], params['author'], params['id']
-
-    redirect_to '/list_posts'
+    post = Post.find(params['id'])
+    post.set_attributes('title' => params['title'], 'body' => params['body'],
+      'author' => params['author'])
+    if post.save
+      redirect_to '/list_posts'
+    else
+      render 'application/edit_post', locals: { post: post }
+    end
   end
 
   # def find_post_by_id(id)
@@ -87,10 +91,10 @@ class ApplicationController < ActionController::Base
   # end
 
 
-  def get_connection
-    connection = SQLite3::Database.new 'db/development.sqlite3'
-    connection.results_as_hash = true
-    connection
-  end
+  # def get_connection
+  #   connection = SQLite3::Database.new 'db/development.sqlite3'
+  #   connection.results_as_hash = true
+  #   connection
+  # end
 
 end
