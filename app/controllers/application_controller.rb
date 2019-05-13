@@ -1,15 +1,6 @@
 #require 'sqlite3'
 
 class ApplicationController < ActionController::Base
-  # def hello_world
-  #   #self.render(plain: 'Hello World')
-  #   #self.render(inline: '<em>Hello, World</em>')
-  #   #self.render('application/hello_world')
-  #
-  #   aName = params['name'] || 'Default'
-  #   self.render('application/hello_world', locals: {name: aName})
-  #
-  # end
 
   def list_posts
     # connection = self.get_connection
@@ -25,27 +16,14 @@ class ApplicationController < ActionController::Base
   end
 
   def show_post
-    # connection = self.get_connection
-    # result = find_post_by_id(params['id'])
     post = Post.find(params['id'])
-    render 'application/show_post', locals: { post: post }
-
+    comment = Comment.new
+    comments = post.comments
+    render "application/show_post",
+      locals: { post: post, comment: comment, comments: comments }
   end
 
   def create_post
-    # connection = self.get_connection
-    #
-    # insert_query = <<-SQL
-    #   INSERT INTO posts (title, body, author, created_at)
-    #   VALUES (?, ?, ?, ?)
-    # SQL
-    #
-    # connection.execute(insert_query,
-    #   params['title'],
-    #   params['body'],
-    #   params['author'],
-    #   Date.current.to_s)
-
     post = Post.new('title' => params['title'],
                     'body' => params['body'],
                     'author' => params['author'])
@@ -55,6 +33,27 @@ class ApplicationController < ActionController::Base
       render 'application/new_post', locals: { post: post }
     end
 
+  end
+
+  def create_comment
+    post     = Post.find(params['post_id'])
+    comments = post.comments
+    # post.build_comment to set the post_id
+    comment  = post.build_comment('body' => params['body'], 'author' => params['author'])
+    if comment.save
+      # redirect for success
+      redirect_to "/show_post/#{params['post_id']}"
+    else
+      # render form again with errors for failure
+      render 'application/show_post',
+        locals: { post: post, comment: comment, comments: comments }
+    end
+  end
+
+  def delete_comment
+    post = Post.find(params['post_id'])
+    post.delete_comment(params['comment_id'])
+    redirect_to "/show_post/#{params['post_id']}"
   end
 
   def delete_post
@@ -86,15 +85,18 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # def find_post_by_id(id)
-  #   self.get_connection.execute("SELECT * FROM posts WHERE posts.id = ? LIMIT 1", id).first
-  # end
+  def list_comments
+    comments = Comment.all
 
+    render 'application/list_comments', locals: { comments: comments }
+  end
 
-  # def get_connection
-  #   connection = SQLite3::Database.new 'db/development.sqlite3'
-  #   connection.results_as_hash = true
-  #   connection
-  # end
+  private
+
+  def connection
+    connection = SQLite3::Database.new 'db/development.sqlite3'
+    connection.results_as_hash = true
+    connection
+  end
 
 end

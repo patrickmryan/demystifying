@@ -73,6 +73,26 @@ class Post
     self.connection.execute("delete from posts where posts.id = ?",id)
   end
 
+  def comments
+    comment_hashes = self.connection.execute('SELECT * FROM comments WHERE comments.post_id = ?', id)
+    comment_hashes.map do |comment_hash|
+      Comment.new(comment_hash)
+    end
+  end
+
+  def build_comment(attributes)
+    Comment.new(attributes.merge!('post_id' => id))
+  end
+
+  def create_comment(attributes)
+    comment = build_comment(attributes)
+    comment.save
+  end
+
+  def delete_comment(comment_id)
+    Comment.find(comment_id).destroy
+  end
+  
   # ...
 
   def connection

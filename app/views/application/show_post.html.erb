@@ -10,14 +10,66 @@
       </h2>
 
       <small class="meta">
-        <span class="author">by <%= post.author %> -</span>
+        <span class="author">by
+          <%= post.author %>
+          -</span>
         <em class="created_at"><%= post.created_at %></em>
       </small>
 
       <p class="body"><%= post.body %></p>
-    </div>
 
-    <br />
+      <br/><br/>
+
+      <div class="comments">
+        <h3>Comments:</h3>
+        <hr/>
+        <% post.comments.each_with_index do |comment, index| %>
+          <div class="comment">
+            <small class="comment_meta">
+              <span class="comment_author">#<%= index+1 %>
+                by <%= comment.author %> -</span>
+              <em class="comment_created_at"><%= comment.created_at %></em>
+            </small>
+            <p class="comment_body"><%= comment.body %></p>
+
+            <form method="post" action="/list_posts/<%= post.id %>/delete_comment/<%=
+            comment.id %>">
+              <input type="submit" value="Delete Comment" />
+            </form>
+
+          </div>
+          <hr/>
+        <% end %>
+
+        <!-- display errors -->
+        <div class="errors">
+          <% comment.errors.each do |attribute, error| %>
+            <p class="error" style="color: orange">
+              <%= attribute %>: <%= error %>
+            </p>
+          <% end%>
+        </div>
+
+        <!-- new comment form -->
+        <form method="post" action="/create_comment_for_post/<%= post.id %>">
+
+          <label for="body">Comment</label>
+          <textarea id="body" name="body"><%= comment.body %></textarea>
+          <br /> <br />
+
+          <label for="author">Name</label>
+          <input id="author" name="author" type="text" value="<%= comment.author %>"/>
+          <br /> <br />
+
+          <input type="submit" value="Add Comment" />
+
+        </form>
+        <hr />
+
+
+      </div>
+
+    </div>
 
   </body>
 </html>
