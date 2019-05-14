@@ -44,19 +44,19 @@ class PostsController < ApplicationController
 
   # delete_post -> delete -> destroy
   def destroy
-    post.destroy
+    @post.destroy
     redirect_to posts_path
   end
 
-  def greeting
-    # respond differently to different formats...
-    respond_to do |format|
-      # render one response for HTML requests
-      format.html { render inline: "<p>Hi!</p>" }
-      # render another for JSON requests
-      format.json { render json: {greeting: 'Hi!'} }
-    end
-  end
+  # def greeting
+  #   # respond differently to different formats...
+  #   respond_to do |format|
+  #     # render one response for HTML requests
+  #     format.html { render inline: "<p>Hi!</p>" }
+  #     # render another for JSON requests
+  #     format.json { render json: {greeting: 'Hi!'} }
+  #   end
+  # end
 
   private
 

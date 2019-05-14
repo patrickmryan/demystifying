@@ -9,8 +9,8 @@
       <% end %>
     </div>
 
-
-    <form method="post" action="/update_post/<%= @post.id %>">
+<!-- was post -->
+    <form method="patch" action="/posts/<%= @post.id %>">
 
       <label for="title"> Title</label>
       <input id="title" name="title" type="text" value="<%= @post.title %>"/>
@@ -29,7 +29,7 @@
     </form>
 
     <br />
-    <a href="/list_posts">Back to Posts</a>
+    <%= link_to 'Back to Posts', posts_path %>
 
   </body>
 </html>
