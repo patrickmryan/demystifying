@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::Base
 
+  protect_from_forgery with: :exception
+
   def list_posts
     # connection = self.get_connection
     # results = connection.execute('select * from posts')

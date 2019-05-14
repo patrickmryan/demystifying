@@ -9,24 +9,23 @@
       <% end %>
     </div>
 
-<!-- was post -->
-    <form method="patch" action="/posts/<%= @post.id %>">
+    <%= form_tag url_for(action: 'update'), method: "patch" do %>
 
-      <label for="title"> Title</label>
-      <input id="title" name="title" type="text" value="<%= @post.title %>"/>
+      <%= label_tag 'Title' %>
+      <%= text_field_tag 'title', @post.title %>
       <br /> <br />
 
-      <label for="body"> Body</label>
-      <textarea id="body" name="body"><%= @post.body %></textarea>
+      <%= label_tag 'Body' %>
+      <%= text_area_tag 'body', @post.body %>
       <br /> <br />
 
-      <label for="author"> Author</label>
-      <input id="author" name="author" type="text" value="<%= @post.author %>"/>
+      <%= label_tag 'Author' %>
+      <%= text_field_tag 'author', @post.author %>
       <br /> <br />
 
-      <input type="submit" value="Update Post" />
+      <%= submit_tag 'Update Post' %>
 
-    </form>
+    <% end %>
 
     <br />
     <%= link_to 'Back to Posts', posts_path %>

@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
 
+  protect_from_forgery with: :exception
   before_action :find_post, only: [:show, :edit, :update, :destroy]
 
   # list_posts -> list -> index
@@ -19,8 +20,7 @@ class PostsController < ApplicationController
 
   # create_post -> create
   def create
-    @post = Post.new('author' => params['author'], 'title' => params['title'], 'body' => params['body'])
-
+    @post = Post.new(params[:post])
     if @post.save
       redirect_to posts_path
     else

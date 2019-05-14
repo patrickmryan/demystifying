@@ -8,13 +8,13 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = @post.build_comment(
-      'body' => params['body'], 'author' => params['author']
-    )
+    @comment = @post.build_comment(params[:comment])
 
-    if @comment.save
-      redirect_to post_path(@post.id)
+    if comment.save
+      # redirect for success
+      redirect_to posts_path(@post.id)
     else
+      # render form again with errors for failure
       render 'posts/show'
     end
   end
