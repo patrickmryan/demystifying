@@ -2,25 +2,25 @@
   <body>
 
     <div class="errors">
-      <% post.errors.each do |attribute,error| %>
+      <% @post.errors.each do |attribute,error| %>
       <p class="error" style="color: orange">
         <%= attribute %>: <%= error %>
         </p>
       <% end %>
     </div>
 
-    <form method="post" action="/create_post">
+    <form method="post" action="/posts">
 
       <label>Title</label>
-      <input id="title" name="title" type="text" value="<%= post.title %>" />
+      <input id="title" name="title" type="text" value="<%= @post.title %>" />
       <br /> <br />
 
       <label>Body</label>
-      <textarea id="body" name="body" value="<%= post.body %>"></textarea>
+      <textarea id="body" name="body" value="<%= @post.body %>"></textarea>
       <br /> <br />
 
       <label>Author</label>
-      <input id="author" name="author" type="text" value="<%= post.author %>"/>
+      <input id="author" name="author" type="text" value="<%= @post.author %>"/>
       <br /> <br />
 
       <input type="submit" value="Create Post" />
@@ -29,7 +29,7 @@
 
     <br />
     <!-- link back to the list of post -->
-    <a href="/list_posts">Back to Posts</a>
+    <a href="/posts">Back to Posts</a>
 
   </body>
 </html>

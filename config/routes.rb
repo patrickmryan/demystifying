@@ -1,18 +1,35 @@
 Rails.application.routes.draw do
 
-  get({'/hello_world'       => 'application#hello_world'})
-  get('/hello/:name'        => 'application#hello_world')
+  # get({'/hello_world'       => 'application#hello_world'})
+  # get('/hello/:name'        => 'application#hello_world')
 
-  get '/list_posts'         => 'application#list_posts'
-  get '/show_post/:id'      => 'application#show_post'
-  get '/new_post'           => 'application#new_post'
-  post '/create_post'       => 'application#create_post'
-  get '/edit_post/:id'      => 'application#edit_post'
-  post '/update_post/:id'   => 'application#update_post'
-  post '/delete_post/:id'   => 'application#delete_post'
-  post '/create_comment_for_post/:post_id' => 'application#create_comment'
-  post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
-  get  '/list_comments'     => 'application#list_comments'
+  # get '/list_posts'         => 'application#list_posts'
+  # get '/show_post/:id'      => 'application#show_post'
+  # get '/new_post'           => 'application#new_post'
+  # post '/create_post'       => 'application#create_post'
+  # get '/edit_post/:id'      => 'application#edit_post'
+  # post '/update_post/:id'   => 'application#update_post'
+  # post '/delete_post/:id'   => 'application#delete_post'
+
+  # get    '/posts'          => 'posts#index'
+  # get    '/posts/new'      => 'posts#new'
+  # get    '/posts/:id'      => 'posts#show'
+  # post   '/posts'          => 'posts#create'
+  # get    '/posts/:id/edit' => 'posts#edit'
+  # patch  '/posts/:id'      => 'posts#update'
+  # put    '/posts/:id'      => 'posts#update'
+  # delete '/posts/:id'      => 'posts#destroy'
+
+  resources :posts
+  get '/greeting' => 'posts#greeting'
+
+  # post '/create_comment_for_post/:post_id' => 'application#create_comment'
+  # post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
+  # get  '/list_comments'     => 'application#list_comments'
+
+  post   '/posts/:id/comments' => 'comments#create'
+  delete '/posts/:post_id/comments/:id' => 'comments#destroy'
+  get    '/comments'           => 'comments#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
