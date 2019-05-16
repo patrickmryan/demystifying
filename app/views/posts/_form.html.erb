@@ -1,0 +1,19 @@
+<!-- views/posts/_form.html.erb -->
+
+<%= form_for @post do |f| %>
+
+  <%= f.label 'Title' %>
+  <%= f.text_field :title %>
+  <br /> <br />
+
+  <%= f.label 'Body' %>
+  <%= f.text_area :body %>
+  <br /> <br />
+
+  <%= f.label 'Author' %>
+  <%= f.text_field :author %>
+  <br /> <br />
+
+  <%= submit_tag "#{@post.new_record? ? 'Create' : 'Update'} Post" %>
+
+<% end %>

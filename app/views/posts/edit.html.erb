@@ -1,14 +1,8 @@
-<html>
-  <body>
+<!-- app/views/posts/edit.html.erb -->
 
-    <%= render 'shared/errors', obj: @post %>
+<%= render "shared/errors", obj: @post %>
 
-    <%= form_tag posts_path, method: "post" do %>
-      <%= render "form_fields" %>
-    <% end %>
+<%= render 'form' %>
 
-    <br />
-    <%= link_to 'Back to Posts', posts_path %>
-
-  </body>
-</html>
+<br />
+<%= my_link_to 'Back to Post', posts_path %>

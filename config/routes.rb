@@ -23,11 +23,16 @@ Rails.application.routes.draw do
   resources :posts
   get '/greeting' => 'posts#greeting'
 
+  resources :comments  # ??
+
   # post '/create_comment_for_post/:post_id' => 'application#create_comment'
   # post '/list_posts/:post_id/delete_comment/:comment_id' => 'application#delete_comment'
   # get  '/list_comments'     => 'application#list_comments'
 
   post   '/posts/:id/comments' => 'comments#create'
+  get    '/posts/:id/comments' => 'comments#create'
+
+
   delete '/posts/:post_id/comments/:id' => 'comments#destroy'
   get    '/comments'           => 'comments#index'
 
