@@ -1,0 +1,15 @@
+<!-- app/views/posts/_form_fields.html.erb -->
+
+<%= label_tag 'Title' %>
+<%= text_field_tag 'post[title]', @post.title %>
+<br /> <br />
+
+<%= label_tag 'Body' %>
+<%= text_area_tag 'post[body]', @post.body %>
+<br /> <br />
+
+<%= label_tag 'Author' %>
+<%= text_field_tag 'post[author]', @post.author %>
+<br /> <br />
+
+<%= submit_tag "#{@post.new_record? ? 'Create' : 'Update'} Post" %>

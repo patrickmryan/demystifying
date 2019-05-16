@@ -32,7 +32,9 @@
             </small>
             <p class="comment_body"><%= comment.body %></p>
 
-            <%= form_tag post_comment_path(@post.id, comment.id), method: "delete" do %>
+            <h3>post_comments_path = <%= post_comments_path(@post.id, comment.id) %> </h3>
+
+            <%= form_tag post_comments_path(@post.id, comment.id), method: "delete" do %>
               <%= submit_tag "Delete Comment" %>
             <% end %>
 

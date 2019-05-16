@@ -10,11 +10,11 @@ class CommentsController < ApplicationController
   def create
     @comment = @post.build_comment(params[:comment])
 
-    if comment.save
-      # redirect for success
-      redirect_to posts_path(@post.id)
+    if @comment.save
+      flash[:success] = "You have successfully created the comment."
+      redirect_to post_path(@post.id)
     else
-      # render form again with errors for failure
+      flash.now[:error] = "Comment couldn't be created. Please check the errors."
       render 'posts/show'
     end
   end
